@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicted Result</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        /* Add your CSS styles here */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .animated-circle {
+            width: 200px;
+            height: 200px;
+            border: 5px solid transparent;
+            border-radius: 50%;
+            position: relative;
+            animation: circle-fill 2s linear forwards;
+        }
+
+        .circle-fill {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            background-color: {% if result == "Placed" %}#00FF00{% else %}#FF0000{% endif %};
+            transform-origin: 50% 50%;
+            transform: scale(0);
+            animation: circle-appear 2s ease-in-out forwards;
+        }
+
+        .checkmark, .x-mark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 140px;
+            opacity: 0;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+        }
+
+        .checkmark::before {
+            content: "✓";
+            color: #FFFFFF;
+        }
+
+        .x-mark::before {
+            content: "✕";
+            color: #FFFFFF;
+        }
+
+        .checkmark {
+            color: #00FF00;
+            animation: checkmark-appear 1s ease-in-out 1s forwards;
+        }
+
+        .x-mark {
+            color: #FF0000;
+            animation: x-mark-appear 1s ease-in-out 1s forwards;
+        }
+
+        @keyframes circle-appear {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes checkmark-appear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes x-mark-appear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        /* Card styles */
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .card:hover {
+            background-color: {% if result == "Placed" %}#013220{% else %}#013220{% endif %}; /* Change the background color on hover */
+            color: #fff; /* Change the text color on hover */
+        }
+
+        .card {
+            width: 204px;
+            padding: 25px;
+            border: 10px solid #ccc;
+            border-radius: 25px;
+            text-align:center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-circle">
+        <div class="circle-fill"></div>
+        {% if result == "Placed" %}
+            <div class="checkmark"></div>
+        {% else %}
+            <div class="x-mark"></div>
+        {% endif %}
+    </div>
+    
+    <h1>Result: {{ result }}</h1>
+    <p>Probability of Placement: {{ probability_placed|floatformat:2 }}%</p>
+    <div class="card-container">
+        <!-- Card 1 (Redirects to IndiaBIX) -->
+        <div class="card" onclick="window.location.href='https://www.indiabix.com/'">
+            <h2>Improve Aptitude</h2>
+        </div>
+        <!-- Card 2 (Redirects to PrepInsta) -->
+        <div class="card" onclick="window.location.href='https://www.prepinsta.com/'">
+            <h2>Prepare for Exams</h2>
+        </div>
+        <!-- Card 3 (Redirects to Testbook) -->
+        <div class="card" onclick="window.location.href='https://www.testbook.com/'">
+           
+            <h2>Mock Tests & More</h2>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        /* Center the content vertically and horizontally */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Add custom styles for the image container */
+        .image-container {
+            width: 50%;
+            padding: 20px;
+            text-align: center;
+            float: left; /* Add this line to make the image float to the left */
+        }
+
+        /* Add custom styles for the image */
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Add custom styles for the title and button */
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px; /* Adjust the margin to move the title downward */
+        }
+
+        .predict-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px; /* Adjust the margin to move the button downward */
+        }
+
+        /* Hidden form initially */
+        .hidden-form {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #000;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hidden-form label {
+            font-weight: bold;
+        }
+
+        .hidden-form input[type="text"],
+        .hidden-form input[type="number"],
+        .hidden-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .hidden-form .form-check-input {
+            margin-right: 5px;
+        }
+
+        .hidden-form button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- Left Side: Image Container -->
+            <div class="col-md-6 image-container">
+                <img src="static/student.jpg" alt="Image">
+            </div>
+
+            <!-- Right Side: Title and Button, Form (Initially Hidden) -->
+            <div class="col-md-6">
+                <div class="text-center">
+                    <h1 class="title">Placement Prediction</h1>
+                    <button class="predict-button" id="predict-button">Predict Now <i class="fas fa-arrow-right"></i></button>
+                </div>
+                
+                <div class="hidden-form" id="form-container" style="text-align: left;">
+                    <form method="post" action="{% url 'my_app:predict_result'%}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tenth">10th Mark:</label>
+                                    <input type="text" class="form-control" id="ssc_p" name="ssc_p" placeholder="Enter your 10th mark">
+                                    <div class="error-message" id="ssc_p-error"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="branch10" style="text-align: left;">10th Branch:</label>
+                                    <select class="form-control" id="ssc_b" name="ssc_b" placeholder="Enter your 10th branch" required>
+                                        <option value=""></option>
+                                        <option value="1">Central</option>
+                                        <option value="0">Others</option>
+                                    </select>
+                                
+                                </div>
+                
+                                <div class="form-group">
+                                    <label for="branch12">12th Mark:</label>
+                                    <input type="text" class="form-control" id="hsc_p" name="hsc_p" placeholder="Enter your 12th mark">
+                                    <div class="error-message" id="hsc_p-error"></div>
+                                
+                                </div>
+                                <div class="form-group">
+                                    <label for="twelfth" style="text-align: left;">12th Branch:</label>
+                                    <select class="form-control" id="hsc_b" name="hsc_b" placeholder="Enter your 12th branch" required>
+                                        <option value=""></option>
+                                        <option value="1">Central</option>
+                                        <option value="0">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <!-- Right Column -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="stream12" style="text-align: left;">12th Stream:</label>
+                    <select class="form-control" id="hsc_s" name="hsc_s" placeholder="Enter your 12th stream" required>
+                        <option value=""></option>
+                        <option value="2">Science</option>
+                        <option value="1">Commerce</option>
+                        <option value="0">Arts</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="degree">Degree Mark:</label>
+                    <input type="text" class="form-control" id="degree_p" name="degree_p" placeholder="Enter your degree mark">
+                    <div class="error-message" id="degree_p-error"></div>
+                                
+                </div>
+                <div class="form-group">
+                    <label for="specialization" style="text-align: left;">Specialization:</label>
+                    <select class="form-control" id="degree_t" name="degree_t" placeholder="Enter your specialization" required>
+                        <option value=""></option>
+                        <option value="4">Commerce</option>
+                        <option value="3">Science And Technology</option>
+                        <option value="2">Arts</option>
+                        <option value="1">Management</option>
+                        <option value="0">Others</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label style="text-align: left;">Do you have work experience?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="workex" id="experience-yes" value="yes">
+                        <label class="form-check-label" for="experience-yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="workex" id="experience-no" value="no">
+                        <label class="form-check-label" for="experience-no">No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="employability">Employability Test Score:</label>
+                    <input type="text" class="form-control" id="employability" name= "etest_p" placeholder="Enter employability test score">
+                    <div class="error-message" id="etest_p-error"></div>
+                                
+                </div>
+            </div>
+            </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+    <!-- Include Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        document.getElementById('predict-button').addEventListener('click', function () {
+            // Hide the initial content and show the form
+            //document.querySelector('.image-container').style.display = 'none';
+            document.querySelector('.title').style.display = 'none';
+            document.querySelector('.predict-button').style.display = 'none';
+            document.querySelector('#form-container').style.display = 'block';
+        });
+    </script>
+
+    <script>
+    // Function to validate numeric input
+    function validateNumericInput(input) {
+        var numericRegex = /^[0-9]*$/; // Regular expression to allow only numbers
+
+        if (!numericRegex.test(input.value)) {
+            alert("Please enter numbers only.");
+            input.value = ""; // Clear the input field
+        }
+    }
+
+    // Add event listeners to the text fields for input validation
+    document.getElementById('ssc_p').addEventListener('input', function () {
+        validateNumericInput(this);
+    });
+
+    document.getElementById('hsc_p').addEventListener('input', function () {
+        validateNumericInput(this);
+    });
+
+    document.getElementById('degree_p').addEventListener('input', function () {
+        validateNumericInput(this);
+    });
+
+    document.getElementById('employability').addEventListener('input', function () {
+        validateNumericInput(this);
+    });
+
+    // Function to validate the form
+    function validateForm() {
+        var ssc_p = document.getElementById('ssc_p').value;
+        var hsc_p = document.getElementById('hsc_p').value;
+        var degree_p = document.getElementById('degree_p').value;
+        var etest_p = document.getElementById('employability').value;
+
+        // Check if the required fields are empty
+        if (ssc_p === "" || hsc_p === "" || degree_p === "" || etest_p === "") {
+            alert("Please fill in all the required fields.");
+            return false;
+        }
+
+        // Additional validation logic can be added here
+
+        return true;
+    }
+
+    // Add a submit event listener to the form
+    document.querySelector('form').addEventListener('submit', function (e) {
+        if (!validateForm()) {
+            e.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+    </script>
+</body>
+</html>
